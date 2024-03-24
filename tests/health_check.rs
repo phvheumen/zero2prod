@@ -10,12 +10,13 @@ async fn health_check_works() {
         .get(&format!("{}/health_check", &address))
         .send()
         .await
-        .expect("Failed to execute request");
+        .expect("Failed to send request");
 
     assert!(response.status().is_success());
     assert_eq!(Some(0), response.content_length());
 }
 
+// Spin up an instance of the web application and returns its address
 fn spawn_app() -> String {
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind to random port");
     let port = listener.local_addr().unwrap().port();
